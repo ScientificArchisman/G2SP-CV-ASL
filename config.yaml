@@ -1,0 +1,111 @@
+# Model Configuration
+model:
+  architecture: "GraphConvModel"       # Specify your model architecture name
+  input_dim: 4                         # Input feature dimension
+  hidden_dims: [128, 128, 128, 128, 128]            # Hidden layer dimensions
+  output_dim: 32                       # Output feature dimension (class size or embedding size)
+  num_classes: 29                     # Number of classes in the dataset
+  num_layers: 3                        # Number of layers in the model
+  dropout: 0.5                         # Dropout rate
+  activation: "LeakyReLU"              # Activation function (ReLU, DSReLU, etc.)
+  normalization: "batch"               # Normalization type (batch, layer, etc.)
+
+# Training Configuration
+training:
+  epochs: 100000                            # Number of epochs to train
+  batch_size: 1024                       # Number of samples per batch
+  num_workers: 4                       # Number of workers for data loading
+  learning_rate: 0.004                  # Learning rate for the optimizer
+  weight_decay: 0.0001                  # Weight decay (L2 penalty)
+  optimizer:                           # Optimizer settings
+    type: "Adam"                       # Type of optimizer (Adam, SGD)
+    params:
+      betas: [0.9, 0.999]              # Betas for Adam optimizer
+      momentum: 0.9                    # Momentum for SGD, if using SGD
+  scheduler:                           # Scheduler settings (optional)
+    type: "StepLR"                     # Learning rate scheduler type
+    params:
+      step_size: 10                    # Step size for StepLR
+      gamma: 0.5                       # Decay factor for learning rate
+  early_stopping:
+    patience: 50                        # Number of epochs to wait before stopping if no improvement
+
+# Dataset Configuration
+dataset:
+  adj_dir: "data/processed_data/adj_matrix"               # Path to adjacency matrix directory
+  features_dir: "data/processed_data/extended_features"     # Path to extended features directory
+  split_ratio:                                             # Dataset split ratio for train, val, test
+    train: 0.85
+    val: 0.15
+    test: 0.0
+  transform:                           # Data transformation settings
+    normalize: true                    # Apply normalization to the features
+    augment:                           # Data augmentation settings
+      rotate: 15                       # Rotation angle for data augmentation (in degrees)
+      flip: true                       # Whether to apply horizontal flipping
+
+# Logging Configuration
+logging:
+  log_dir: "logs/"                     # Directory to save logs and checkpoints
+  checkpoint_path: "Models/"           # Directory to save model checkpoints
+  save_interval: 5                     # Save checkpoint every N epochs
+  tensorboard: true                    # Enable TensorBoard logging
+  verbose: true                        # Print detailed training logs
+
+# Evaluation Configuration
+evaluation:
+  metrics:                             # Metrics for evaluation
+    - accuracy
+    - f1_score
+    - precision
+    - recall
+  confusion_matrix: true               # Whether to log confusion matrix
+  class_labels:                        # Class labels for the dataset (A-Z in this case)
+    - A
+    - B
+    - C
+    - D
+    - E
+    - F
+    - G
+    - H
+    - I
+    - J
+    - K
+    - L
+    - M
+    - N
+    - O
+    - P
+    - Q
+    - R
+    - S
+    - T
+    - U
+    - V
+    - W
+    - X
+    - Y
+    - Z
+
+
+# Seed for reproducibility
+seed: 42                                # Random seed for reproducibility
+
+# Additional Settings
+debug_mode: false                       # Enable debug mode for verbose error tracing
+distributed_training:                   # Settings for distributed (multi-GPU) training
+  enabled: false                        # Enable/disable distributed training
+  num_nodes: 1                          # Number of nodes for distributed training
+  gpus_per_node: 1                      # GPUs per node
+
+# Custom Model Parameters (Optional)
+custom_params:
+  attention_heads: 4                    # If using attention in the model
+  kernel_size: 3                        # Kernel size for convolutional layers
+  pooling_type: "max"                   # Type of pooling layer (max, avg)
+
+# Resume Training (Optional)
+resume_training:
+  checkpoint_file: ""                   # Path to checkpoint file for resuming training
+  strict: true                          # Strictly load all checkpoint parameters
